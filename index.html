@@ -50,9 +50,32 @@
 
 			}
 
+			function onMessageArrived( receivedMessage ) {
+				var unencoded_message = receivedMessage.payloadString;
+				var res = unencoded_message.split('^');
+
+				console.log( receivedMessage );
+
+				if( res[0] == '~' ) // new message
+				{
+					if( res[1] == 'tablet' ) // messaggio da tablet
+					{
+
+						var mittente = res[1];
+						var messaggio = res[2];
+
+						console.log('_________________');
+						console.log('new message');
+						console.log('from: '+mittente);
+						console.log('message: '+messaggio);
+					}
+				}
+			}
+
 			$(document).ready(function(){
 				client = new Paho.MQTT.Client(host, port, canale);
 				client.onMessageDelivered = onMessageDelivered;
+				client.onMessageArrived = onMessageArrived;
 			    var options = {
 			    	userName: user,
 			    	password: psw,
