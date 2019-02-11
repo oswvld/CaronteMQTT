@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<script src="./jquery.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>MQTT Caronte</h1>
+		<button id="esBtn" type="button">Invia messaggio</button>
+		<script>
+
+			// parameters MQTT
+			var host = 'm24.cloudmqtt.com';
+			var user = 'txyosdvw';
+			var psw = 'fM6R-UZSkeN3';
+			var port = 38333;
+			var canale = 'caronte_tablet';
+			var clientId = null;
+
+			// costanti
+			var client = null;
+
+			// testi
+			const MESSAGGIO_CONNESSIONE_AVVENUTA = 'Connessione avvenuta con successo';
+			const MESSAGGIO_CONNESSIONE_FALLITA = 'Connessione fallita';
+
+			function onConnect() {
+				console.log(MESSAGGIO_CONNESSIONE_AVVENUTA);
+				
+			}
+
+			function doFail( error ) {
+				console.log(MESSAGGIO_CONNESSIONE_FALLITA);
+				console.log(error);
+			}
+
+			function onMessageDelivered() {
+				alert('inviato')
+			}
+
+			function sendMessage( clientId, message ) {
+
+				var preparedMessage = null;
+				preparedMessage = '~';
+				preparedMessage += '^'+clientId;
+				preparedMessage += '^'+message;
+
+				var messaggio = new Paho.MQTT.Message(preparedMessage);
+				messaggio.destinationName = canale;
+				client.send(messaggio);
+
+			}
+
+			$(document).ready(function(){
+				client = new Paho.MQTT.Client(host, port, canale);
+				client.onMessageDelivered = onMessageDelivered;
+			    var options = {
+			    	userName: user,
+			    	password: psw,
+			    	onSuccess: onConnect,
+			    	onFailure: doFail,
+			    	useSSL: true,
+			    }
+			    client.connect(options);
+
+			    $('#esBtn').on('click', function(){
+			    	sendMessage( '123', 'daniel-prova' )
+			    })
+
+			})
+		</script>
+	</body>
+</html>
