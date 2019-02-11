@@ -65,6 +65,7 @@
 			$(document).ready(function(){
 
 				client = new Paho.MQTT.Client(host, port, canale);
+				client.onMessageArrived = onMessageArrived;
 			    var options = {
 			    	userName: user,
 			    	password: psw,
