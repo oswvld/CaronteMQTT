@@ -46,6 +46,8 @@
 				var unencoded_message = receivedMessage.payloadString;
 				var res = unencoded_message.split('^');
 
+				console.log( receivedMessage );
+
 				if( res[0] == '~' ) // new message
 				{
 					if( res[1] == 'tablet' ) // messaggio da tablet
