@@ -15,5 +15,48 @@
 </head>
 <body>
 	<img id="slotGIF" src="./gifs-schermo/sublime-perfezione.gif">
+
+		<script>
+
+			// parameters MQTT
+			var host = 'm24.cloudmqtt.com';
+			var user = 'txyosdvw';
+			var psw = 'fM6R-UZSkeN3';
+			var port = 38333;
+			var canale = 'caronte_tablet';
+			var clientId = null;
+
+			// costanti
+			var client = null;
+
+			// testi
+			const MESSAGGIO_CONNESSIONE_AVVENUTA = 'Connessione avvenuta con successo';
+			const MESSAGGIO_CONNESSIONE_FALLITA = 'Connessione fallita';
+
+			function onConnect() {
+				console.log(MESSAGGIO_CONNESSIONE_AVVENUTA);
+			}
+
+			function doFail( error ) {
+				console.log(MESSAGGIO_CONNESSIONE_FALLITA);
+				console.log(error);
+			}
+
+			$(document).ready(function(){
+
+				client = new Paho.MQTT.Client(host, port, canale);
+				client.onMessageDelivered = onMessageDelivered;
+			    var options = {
+			    	userName: user,
+			    	password: psw,
+			    	onSuccess: onConnect,
+			    	onFailure: doFail,
+			    	useSSL: true,
+			    }
+			    client.connect(options);
+
+			})
+		</script>
+
 </body>
 </html>
