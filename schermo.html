@@ -35,6 +35,7 @@
 
 			function onConnect() {
 				console.log(MESSAGGIO_CONNESSIONE_AVVENUTA);
+				client.subscribe('caronte_tablet');
 			}
 
 			function doFail( error ) {
